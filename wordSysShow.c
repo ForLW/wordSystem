@@ -8,7 +8,7 @@ wordSysShow()
 	printf("\t\t****************************\n");
 	printf("\t\t**欢迎使用科学背单词系统！**\n");
 	printf("\t\t****************************\n");
-	linux_pause();
+	linux_pause_clear();
 	int pat=1;
 	pat=wordSysPat();
 	system("clear");

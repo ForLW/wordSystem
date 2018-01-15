@@ -20,10 +20,10 @@ watchRecited()
 		n++;
 		if(n==10)
 		{
-			linux_pause();
+			linux_pause_clear();
 			n=0;
 		}
 	}
 	fclose(fp);
-	linux_pause();
+	linux_pause_clear();
 }

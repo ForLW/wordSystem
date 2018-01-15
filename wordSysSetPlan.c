@@ -51,7 +51,7 @@ wordSysSetPlan()
 			system("clear");
 			printf("设置计划成功！\n");
 			fclose(setWordPlan);
-			linux_pause();
+			linux_pause_clear();
 		}
 		
 	

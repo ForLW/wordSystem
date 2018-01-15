@@ -44,7 +44,7 @@ wordRecite()
 	}
 	printf("开始背诵今天的单词吧！\n");
 	printf("你今天要背诵%d个单词！\n",wordNum);
-	linux_pause();
+	linux_pause_clear();
 	int i=0;
 	char word[30];
 	char translate[50];
@@ -58,7 +58,7 @@ wordRecite()
 		printf("单词日志创建异常，请联系管理员！\n");
 		return ;
 	}
-	
+	i=0;
 	while(i<wordNum)
 	{
 		
@@ -70,17 +70,59 @@ wordRecite()
 		i++;
 	}
 	fclose(wordList);
+	fclose(day_log);
+	if((day_log=fopen(word_log,"r"))==NULL)
+	{
+		printf("单词日志读取异常，请联系管理员！\n");
+		return ;
+	}
 	struct Word
 	{
 		char word[30];
 		char translate[50];
 	}today_word[wordNum];
+	i=0;
+	while(i<wordNum)
+	{
+		today_word[i].word[0]='\0';
+		today_word[i].translate[0]='\0';
+		i++;
+	}
 	srand((unsigned int)time(NULL));
 	i=0;
 	while(i<wordNum)
 	{
-		rand()%wordNum;
+		int num;
+		num=rand()%wordNum;
+		while(1)
+		{
+			if(today_word[num].word[0]=='\0')
+			{
+				if(fscanf(day_log,"%s %s",today_word[num].word,
+				today_word[num].translate)!=2)
+				goto end;
+				break;
+			}
+			num=(num+1)%wordNum;
+		}
+		i++;
 	}
+end:
+	i=0;
+	while(i<wordNum)
+	{
+		if(today_word[i].word[0]!='\0')
+		{
+			printf("%s\n",today_word[i].word);
+			linux_pause();
+			printf("%s\n",today_word[i].translate);
+			linux_pause_clear();
+		}
+		i++;
+	}
+	printf("今日背诵单词浏览完毕！\n");
+	fclose(day_log);
+	linux_pause_clear();
 	
-	//fclose(day_log);
+	
 }

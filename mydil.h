@@ -11,7 +11,10 @@ int
 my_atoi(char *str);  //将字符串转换成整数 (标准库有)
 
 void
-linux_pause();   //linux系统暂停
+linux_pause();   //linux系统暂停加清屏
+
+void
+linux_pause_clear();   //linux系统暂停
 
 int 
 my_linux_getpass( char *dest, int maxlen );  //linux获取密码

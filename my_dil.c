@@ -45,12 +45,21 @@ my_itoa (int num,char s[],int n)
 }
 
 void
-linux_pause()
+linux_pause_clear()
 {
 	my_fflush(stdin);
 	printf("请按enter键继续...");
 	getchar();
 	system("clear");
+}
+
+void
+linux_pause()
+{
+	my_fflush(stdin);
+	printf("请按enter键继续...");
+	getchar();
+	//system("clear");
 }
 
 int 
