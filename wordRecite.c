@@ -123,6 +123,199 @@ end:
 	printf("今日背诵单词浏览完毕！\n");
 	fclose(day_log);
 	linux_pause_clear();
-	
+	printf("选出下面这些题中你认为正确的选项：\n");
+	linux_pause_clear();
+	i=0;
+	while(i<wordNum)
+	{
+		int choise[4];
+		int num = -1;
+		srand((unsigned int)time(NULL));
+		printf("%s\n\n",today_word[i].word);
+		int j=0;
+		while( j < 4 )
+		{
+			choise[j] = -1;
+			j++;
+		}
+		num = rand()%4;
+		choise[num]=i;   //随机正确答案的选项
+		j=0;
+		int k=0;
+		int n;
+		while( j < 4 )
+		{
+			k=0;
+			if( choise[j] == -1 )
+			{
+				n=rand()%wordNum;
+				while( k < 4 )
+				{
+					if( choise[k] == n )
+					{
+						n = rand()%wordNum;
+						k=0;
+					}
+					else
+						k++;
+				}
+				choise[j] = n;
+			}
+			j++;
+		}
+
+		printf("A : %s\n",today_word[choise[0]].translate);
+		printf("B : %s\n",today_word[choise[1]].translate);
+		printf("C : %s\n",today_word[choise[2]].translate);
+		printf("D : %s\n",today_word[choise[3]].translate);
+
+		char ch[10];
+		while(1)
+		{
+
+			printf("请输入答案：");
+			fscanf(stdin,"%s",ch);
+			my_fflush(stdin);
+			if( strcmp(ch,"a")==0 || strcmp(ch,"A")==0 )
+			{
+				n = 0;
+			}
+			else if( strcmp(ch,"b")==0 || strcmp(ch,"B")==0 )
+			{
+				n = 1;
+			}
+			else if( strcmp(ch,"c")==0 || strcmp(ch,"C")==0 )
+			{
+				n = 2;
+			}
+			else if( strcmp(ch,"d")==0 || strcmp(ch,"D")==0 )
+			{
+				n = 3;
+			}
+			else 
+			{
+				printf("请输入A~D的选项\n");
+				continue;
+			}
+
+			if( n == num )
+			{
+				printf("正确!\n");
+				linux_pause_clear();
+				break;
+			}
+
+			printf("错误!\n");
+
+		}
+
+
+		j=0;
+		while( j < 4 )
+		{
+			choise[j] = -1;
+			j++;
+		}
+
+		i++;
+	}
+
+
+	i=0;
+	while( i < wordNum )
+	{
+		
+		int choise[4];
+		int num = -1;
+		srand((unsigned int)time(NULL));
+		printf("%s\n\n",today_word[i].translate);
+		int j=0;
+		while( j < 4 )
+		{
+			choise[j] = -1;
+			j++;
+		}
+		num = rand()%4;
+		choise[num]=i;   //随机正确答案的选项
+		j=0;
+		int k=0;
+		int n;
+		while( j < 4 )
+		{
+			k=0;
+			if( choise[j] == -1 )
+			{
+				n=rand()%wordNum;
+				while( k < 4 )
+				{
+					if( choise[k] == n )
+					{
+						n = rand()%wordNum;
+						k=0;
+					}
+					else
+						k++;
+				}
+				choise[j] = n;
+			}
+			j++;
+		}
+
+		printf("A : %s\n",today_word[choise[0]].word);
+		printf("B : %s\n",today_word[choise[1]].word);
+		printf("C : %s\n",today_word[choise[2]].word);
+		printf("D : %s\n",today_word[choise[3]].word);
+
+		char ch[10];
+		while(1)
+		{
+
+			printf("请输入答案：");
+			fscanf(stdin,"%s",ch);
+			my_fflush(stdin);
+			if( strcmp(ch,"a")==0 || strcmp(ch,"A")==0 )
+			{
+				n = 0;
+			}
+			else if( strcmp(ch,"b")==0 || strcmp(ch,"B")==0 )
+			{
+				n = 1;
+			}
+			else if( strcmp(ch,"c")==0 || strcmp(ch,"C")==0 )
+			{
+				n = 2;
+			}
+			else if( strcmp(ch,"d")==0 || strcmp(ch,"D")==0 )
+			{
+				n = 3;
+			}
+			else 
+			{
+				printf("请输入A~D的选项\n");
+				continue;
+			}
+
+			if( n == num )
+			{
+				printf("正确!\n");
+				linux_pause_clear();
+				break;
+			}
+
+			printf("错误!\n");
+
+		}
+
+
+		j=0;
+		while( j < 4 )
+		{
+			choise[j] = -1;
+			j++;
+		}
+
+		i++;
+	}
+
 	
 }
