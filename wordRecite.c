@@ -125,12 +125,20 @@ end:
 	linux_pause_clear();
 	printf("选出下面这些题中你认为正确的选项：\n");
 	linux_pause_clear();
+
+
+	//看单词从四个选项中选择中选择正确的翻译
 	i=0;
 	while(i<wordNum)
 	{
 		int choise[4];
 		int num = -1;
 		srand((unsigned int)time(NULL));
+		if( today_word[i].word == '\0' )
+		{
+			i++;
+			continue;
+		}	
 		printf("%s\n\n",today_word[i].word);
 		int j=0;
 		while( j < 4 )
@@ -148,7 +156,7 @@ end:
 			k=0;
 			if( choise[j] == -1 )
 			{
-				n=rand()%wordNum;
+				while( n=rand()%wordNum ,today_word[n].translate == '\0' )
 				while( k < 4 )
 				{
 					if( choise[k] == n )
@@ -221,6 +229,7 @@ end:
 	}
 
 
+	//看翻译从四个选项中选择正确的英文
 	i=0;
 	while( i < wordNum )
 	{
@@ -228,6 +237,11 @@ end:
 		int choise[4];
 		int num = -1;
 		srand((unsigned int)time(NULL));
+		if( today_word[i].translate == '\0')
+		{
+			i++;
+			continue;
+		}
 		printf("%s\n\n",today_word[i].translate);
 		int j=0;
 		while( j < 4 )
@@ -245,7 +259,7 @@ end:
 			k=0;
 			if( choise[j] == -1 )
 			{
-				n=rand()%wordNum;
+				while( n=rand()%wordNum ,today_word[n].word == '\0' ) ;
 				while( k < 4 )
 				{
 					if( choise[k] == n )
@@ -316,6 +330,17 @@ end:
 
 		i++;
 	}
+
+
+	i=0;
+	while( i < wordNum )
+	{
+
+
+		i++;
+	}
+
+
 
 	
 }
