@@ -3,8 +3,8 @@ objects = wordSysPat.o watchRecited.o wordSqlLogin.o \
 	my_dil.o wordRecite.o wordSysLogin.o \
 	wordSysMain.o wordTest.o
 
-1 : $(objects)	
-	cc -o 1 $(objects)
+wordSystem : $(objects)	
+	cc -o wordSystem $(objects)
 wordSysPat.o :  wordSystem.h
 watchRecite.o : mydil.h
 wordSysSetPlan.o : mydil.h
@@ -19,5 +19,5 @@ remove :
 	rm -f /usr/bin/my_wordSystem
 .PHONY :clean
 clean :
-	-rm 1 $(objects)
+	-rm wordSystem $(objects)
 
