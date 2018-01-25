@@ -4,7 +4,7 @@ objects = wordSysPat.o watchRecited.o wordSqlLogin.o \
 	wordSysMain.o wordTest.o
 
 wordSystem : $(objects)	
-	cc -o wordSystem $(objects)
+	cc -o   wordSystem $(objects)
 wordSysPat.o :  wordSystem.h
 watchRecite.o : mydil.h
 wordSysSetPlan.o : mydil.h

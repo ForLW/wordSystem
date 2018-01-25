@@ -156,12 +156,13 @@ end:
 			k=0;
 			if( choise[j] == -1 )
 			{
-				while( n=rand()%wordNum ,today_word[n].translate == '\0' )
+				while( n=rand()%wordNum ,today_word[n].translate == '\0' ) ;
 				while( k < 4 )
 				{
 					if( choise[k] == n )
 					{
-						n = rand()%wordNum;
+						while( n=rand()%wordNum ,today_word[n].translate == '\0' ) ;
+						//n = rand()%wordNum;
 						k=0;
 					}
 					else
@@ -171,7 +172,7 @@ end:
 			}
 			j++;
 		}
-
+		
 		printf("A : %s\n",today_word[choise[0]].translate);
 		printf("B : %s\n",today_word[choise[1]].translate);
 		printf("C : %s\n",today_word[choise[2]].translate);
@@ -218,13 +219,6 @@ end:
 		}
 
 
-		j=0;
-		while( j < 4 )
-		{
-			choise[j] = -1;
-			j++;
-		}
-
 		i++;
 	}
 
@@ -264,7 +258,8 @@ end:
 				{
 					if( choise[k] == n )
 					{
-						n = rand()%wordNum;
+						while( n=rand()%wordNum ,today_word[n].translate == '\0' ) ;
+						//n = rand()%wordNum;
 						k=0;
 					}
 					else
@@ -331,11 +326,25 @@ end:
 		i++;
 	}
 
+	printf("下列各题给出翻译，输入正确的英文。\n");
+	linux_pause_clear();
 
+//给翻译输入正确的英文
 	i=0;
 	while( i < wordNum )
 	{
-
+		char choise[50];
+		printf("%s\n\n",today_word[i].translate);
+		printf("请输入正确答案：");
+		scanf("%s",choise);
+		while( strcmp(choise,today_word[i].word) != 0 )
+		{
+			printf("输入错误请重新输入：");
+			scanf("%s",choise);
+		}
+		
+		printf("正确\n");
+		linux_pause_clear();
 
 		i++;
 	}
