@@ -14,9 +14,9 @@ wordSysLogin.o : wordSystem.h mydil.h
 wordSysMain.o : wordSystem.h
 
 install :
-	cp 1  /usr/bin/my_wordSystem
+	cp wordSystem  /usr/bin/my_wordSystem
 remove :
-	rm -f /usr/bin/my_wordSystem
+	-rm -f /usr/bin/my_wordSystem
 .PHONY :clean
 clean :
 	-rm wordSystem $(objects)
