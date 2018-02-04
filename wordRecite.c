@@ -10,23 +10,24 @@ wordRecite()
 {
 	FILE *wordPlan;
 	int wordNum=20;
-	
-	if((wordPlan=fopen("wordPlan.txt","r+"))==NULL)
+
+	if((wordPlan=fopen("./wordtxt/wordPlan.txt","r+"))==NULL)
 	{
-		
+
 		printf("你还没有单词计划，请设置您的单词计划！\n");
 		wordSysSetPlan();
 	}
-	
-	
-	if((wordPlan=fopen("wordPlan.txt","r+"))==NULL)
+
+
+	if((wordPlan=fopen("./wordtxt/wordPlan.txt","r+"))==NULL)
 	{
 		printf("读取单词计划失败，请联系管理员！\n");
 		return ;
 	}
-	
-	char wordtxt[20];
-	if(fscanf(wordPlan,"%s",wordtxt)!=1)
+
+	char wordtxt[50]="./wordtxt/";
+	char tmp[20];
+	if(fscanf(wordPlan,"%s",tmp)!=1)
 	{
 		printf("获取计划单词文件名称失败！\n");
 		return ;
@@ -36,41 +37,119 @@ wordRecite()
 		printf("获取每日背诵单词数失败！\n");
 		return ;
 	}
-	FILE *wordList;
-	if((wordList=fopen(wordtxt,"r"))==NULL)
+	strcat(wordtxt,tmp);
+
+	char word[30];
+	char translate[50];
+	char yourself_wordtxt[50]="./wordtxt/yourself_";
+	strcat(yourself_wordtxt,tmp);
+	FILE *wordList,*yourself_wordList;
+	if((yourself_wordList=fopen(yourself_wordtxt,"r"))==NULL)
 	{
-		printf("您还没有下载离线单词，请确认后再使用！\n");
+		if((wordList=fopen(wordtxt,"r"))==NULL)
+		{
+			printf("您还没有下载离线单词，请确认后再使用！\n");
+			return ;
+		}
+		if((yourself_wordList=fopen(yourself_wordtxt,"w+"))==NULL)
+		{
+			printf("创建你自己的单词列表失败，请联系管理员！\n");
+			return ;
+		}
+
+		while(1)
+		{
+			if(fscanf(wordList,"%s %s",word,translate)!=2)
+			{
+				break;
+			}
+			fprintf(yourself_wordList,"%s %s\n",word,translate);
+		}
+		fclose(wordList);
+
+	}
+	fclose(yourself_wordList);
+	if((yourself_wordList=fopen(yourself_wordtxt,"r"))==NULL)
+	{
+		printf("读取您的单词列表失败，请联系管理员！\n");
 		return ;
 	}
 	printf("开始背诵今天的单词吧！\n");
 	printf("你今天要背诵%d个单词！\n",wordNum);
 	linux_pause_clear();
 	int i=0;
-	char word[30];
-	char translate[50];
 	char word_log[20]="./log/";   //日志的位置
 	produce_day_log(word_log);
 	FILE *day_log;
 	//printf("%s\n",word_log);
 	//linux_pause();
-	if((day_log=fopen(word_log,"w"))==NULL)
+    int reRecite = 0;
+    if((day_log=fopen(word_log,"r")) !=NULL)
 	{
-		printf("单词日志创建异常，请联系管理员！\n");
+        reRecite = 1 ;
+	}
+	else 
+	{
+		if((day_log=fopen(word_log,"w"))==NULL)
+		{
+			printf("单词日志创建异常，请联系管理员！\n");
+			return ;
+		}
+		i=0;
+		while(i<wordNum)
+		{
+
+			if(fscanf(yourself_wordList,"%s %s",word,translate)!=2)
+			{
+				break;
+			}
+			fprintf(day_log,"%s %s\n",word,translate);
+			i++;
+		}
+	}
+	FILE *swapfile;
+	
+	if((swapfile=fopen("swapfile","w+"))==NULL)
+	{
+		printf("创建交换文件失败，请联系管理员！\n");
 		return ;
 	}
-	i=0;
-	while(i<wordNum)
+	while( 1 )
 	{
-		
-		if(fscanf(wordList,"%s %s",word,translate)!=2)
+		if(fscanf(yourself_wordList,"%s %s",word,translate)!=2)
 		{
 			break;
 		}
-		fprintf(day_log,"%s %s\n",word,translate);
-		i++;
+		fprintf(swapfile,"%s %s\n",word,translate);
 	}
-	fclose(wordList);
+
+	fclose(swapfile);
+
+	fclose(yourself_wordList);
 	fclose(day_log);
+	
+	if((swapfile=fopen("swapfile","r"))==NULL)
+	{
+		printf("读取交换文件失败，请联系管理员！\n");
+		return ;    
+	}
+	if((yourself_wordList=fopen(yourself_wordtxt,"w"))==NULL)
+	{
+		printf("修改您自己的单词列表失败，请联系管理员！\n");
+		return ;
+	}
+
+	while( 1 )
+	{
+		if(fscanf(swapfile,"%s %s",word,translate)!=2)
+		{
+			break;
+		}
+		fprintf(yourself_wordList,"%s %s\n",word,translate);
+	}
+	fclose(swapfile);
+	fclose(yourself_wordList);
+	remove("swapfile");
 	if((day_log=fopen(word_log,"r"))==NULL)
 	{
 		printf("单词日志读取异常，请联系管理员！\n");
@@ -138,7 +217,7 @@ end:
 		{
 			i++;
 			continue;
-		}	
+		}
 		printf("%s\n\n",today_word[i].word);
 		int j=0;
 		while( j < 4 )
@@ -172,7 +251,7 @@ end:
 			}
 			j++;
 		}
-		
+
 		printf("A : %s\n",today_word[choise[0]].translate);
 		printf("B : %s\n",today_word[choise[1]].translate);
 		printf("C : %s\n",today_word[choise[2]].translate);
@@ -201,7 +280,7 @@ end:
 			{
 				n = 3;
 			}
-			else 
+			else
 			{
 				printf("请输入A~D的选项\n");
 				continue;
@@ -227,7 +306,7 @@ end:
 	i=0;
 	while( i < wordNum )
 	{
-		
+
 		int choise[4];
 		int num = -1;
 		srand((unsigned int)time(NULL));
@@ -298,7 +377,7 @@ end:
 			{
 				n = 3;
 			}
-			else 
+			else
 			{
 				printf("请输入A~D的选项\n");
 				continue;
@@ -342,14 +421,38 @@ end:
 			printf("输入错误请重新输入：");
 			scanf("%s",choise);
 		}
-		
+
 		printf("正确\n");
 		linux_pause_clear();
 
 		i++;
 	}
 
+    printf("很棒呀今天的单词已经背完了，记得明天再来背单词。\n");
+    linux_pause_clear();
 
 
-	
+    if( reRecite == 0 )
+    {
+
+        FILE * wordRecited;
+        if( (wordRecited=fopen("./wordtxt/wordRecited.txt","a+")) == NULL )
+        {
+            printf("wordRecite.txt写入失败，请联系管理员！\n");
+        }
+        i=0;
+        while( i < wordNum )
+        {
+            if( today_word[i].word[0] != '\0' && today_word[i].translate[0] != '\0' )
+            {
+                fprintf(wordRecited,"%s %s\n",today_word[i].word,today_word[i].translate);
+            }
+            i++;
+        }
+
+		fclose(wordRecited);
+
+    }
+
+
 }

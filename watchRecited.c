@@ -5,7 +5,7 @@ void
 watchRecited()
 {
 	FILE *fp;
-	if((fp=fopen("wordRecited.txt","r"))==NULL)
+	if((fp=fopen("./wordtxt/wordRecited.txt","r"))==NULL)
 	{
 		printf("您还没有背过的单词\n");
 		return ;
