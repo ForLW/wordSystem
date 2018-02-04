@@ -18,7 +18,7 @@ watchRecited()
 		printf("%s",word);
 		else break;
 		n++;
-		if(n==10)
+		if(n==20)
 		{
 			linux_pause_clear();
 			n=0;
